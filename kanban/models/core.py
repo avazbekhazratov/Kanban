@@ -1,11 +1,11 @@
 from django.db import models
 
-from kanban.models import User
+from kanban.models.user import User
 
 
 class Board(models.Model):
-    title = models.CharField(max_length=200)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
 
     def __str__(self):
         return f"{self.title}"
@@ -13,7 +13,7 @@ class Board(models.Model):
 
 class TaskCondition(models.Model):
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
-    creator = models.ForeignKey(User, on_delete=models.SET_NULL)
+    creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=128)
     desc = models.TextField()
 

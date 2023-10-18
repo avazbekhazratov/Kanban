@@ -1,23 +1,22 @@
-from django.shortcuts import render
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
-from .serializers import BoardSerializer
-from .models.core import Board
+from kanban.serializers import TaskConditionSerializer
+from kanban.models.core import Board, TaskCondition, TaskItem, SubTask, BoardMember
 
 
-class Items(GenericAPIView):
-    serializer_class = BoardSerializer
+class TaskCondt(GenericAPIView):
+    serializer_class = TaskConditionSerializer
 
     def get(self, request, pk=None):
         try:
             if pk:
-                board = Board.objects.filter(id=pk).first()
+                board = TaskCondition.objects.filter(id=pk).first()
                 if board:
                     serializer = self.get_serializer(board).data
                     return Response({"succes": serializer})
                 return Response({"error"})
-            board = Board.objects.all()
+            board = TaskCondition.objects.all()
             serializer = self.get_serializer(board, many=True).data
             return Response({'Success': serializer})
         except:
@@ -40,7 +39,7 @@ class Items(GenericAPIView):
         data = request.data
         if "title" not in data or not data['title']:
             return Response({"error": "empty"})
-        bosa = Board.objects.filter(pk=pk).first()
+        bosa = TaskCondition.objects.filter(pk=pk).first()
         if bosa:
             serializer = self.get_serializer(data=data, instance=bosa)
             serializer.is_valid(raise_exception=True)
@@ -50,7 +49,7 @@ class Items(GenericAPIView):
 
     def delete(self, request, pk):
         data = request.data
-        board = Board.objects.filter(id=pk).first()
+        board = TaskCondition.objects.filter(id=pk).first()
         if board:
             board.delete()
             return Response({"Success": "Successfully deleted"})

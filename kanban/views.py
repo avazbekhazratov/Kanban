@@ -26,10 +26,10 @@ class Items(GenericAPIView):
     def post(self, request):
         data = request.data
         if "title" not in data or not data['title']:
-            return Response({"error": "empty"})
+            return Response({"error": "title"})
 
         if "creator" not in data or not data['creator']:
-            return Response({"error": "empty"})
+            return Response({"error": "cretor"})
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
@@ -39,7 +39,10 @@ class Items(GenericAPIView):
     def put(self, request, pk):
         data = request.data
         if "title" not in data or not data['title']:
-            return Response({"error": "empty"})
+            return Response({"error": "title"})
+        if "creator" not in data or not data['creator']:
+            return Response({"error": "creator"})
+
         bosa = Board.objects.filter(pk=pk).first()
         if bosa:
             serializer = self.get_serializer(data=data, instance=bosa)

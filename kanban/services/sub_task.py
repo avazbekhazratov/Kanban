@@ -36,6 +36,9 @@ class SubTaskView(GenericAPIView):
         data = request.data
         if "title" not in data or not data['title']:
             return Response({"error": "empty"})
+        if "task_item" not in data or not data['task_item']:
+            return Response({"Error": "Fields are empty"}, status=status.HTTP_404_NOT_FOUND)
+
         subtasks = SubTask.objects.filter(pk=pk).first()
         if subtasks:
             serializer = self.get_serializer(data=data, instance=subtasks)

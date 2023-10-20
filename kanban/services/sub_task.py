@@ -10,15 +10,14 @@ class SubTaskView(GenericAPIView):
 
     def get(self, request, pk=None):
         if pk:
-            board = SubTask.objects.filter(id=pk).first()
-            if board:
-                serializer = self.get_serializer(board).data
+            subtasks = SubTask.objects.filter(id=pk).first()
+            if subtasks:
+                serializer = self.get_serializer(subtasks).data
                 return Response({"succes": serializer}, status=status.HTTP_200_OK)
             return Response({"Error": "Not Found"}, status=status.HTTP_404_NOT_FOUND)
-        Subman = SubTask.objects.all()
-        serializer = self.get_serializer(Subman, many=True).data
+        subtasks = SubTask.objects.all()
+        serializer = self.get_serializer(subtasks, many=True).data
         return Response({'Success': serializer}, status=status.HTTP_200_OK)
-
 
 
     def post(self, request):
@@ -27,22 +26,28 @@ class SubTaskView(GenericAPIView):
             return Response({"Error": "Fields are empty"}, status=status.HTTP_404_NOT_FOUND)
         if "task_item" not in data or not data['task_item']:
             return Response({"Error": "Fields are empty"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'Success': "you have added"})
+
     def put(self, request, pk):
         data = request.data
         if "title" not in data or not data['title']:
             return Response({"error": "empty"})
-        Subman = SubTask.objects.filter(pk=pk).first()
-        if Subman:
-            serializer = self.get_serializer(data=data, instance=Subman)
+        subtasks = SubTask.objects.filter(pk=pk).first()
+        if subtasks:
+            serializer = self.get_serializer(data=data, instance=subtasks)
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response({'Success': "you have edited"}, status=status.HTTP_200_OK)
         return Response({'Error': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
 
     def delete(self, request, pk):
-        Subman = SubTask.objects.filter(id=pk).first()
-        if Subman:
-            Subman.delete()
+        subtasks = SubTask.objects.filter(id=pk).first()
+        if subtasks:
+            subtasks.delete()
             return Response({"Success": "Successfully deleted"}, status=status.HTTP_200_OK)
         return Response({"Error": "Data not found"}, status=status.HTTP_404_NOT_FOUND)
 

@@ -36,3 +36,21 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f"{self.phone}"
+
+
+class OTP(models.Model):
+    key = models.CharField(max_length=1024)
+    phone = models.CharField(max_length=20)
+
+    is_expired = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
+    tries = models.IntegerField(default=0)
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if self.tries >= 3:
+            self.is_expired = True
+
+        super(OTP, self).save(*args, **kwargs)

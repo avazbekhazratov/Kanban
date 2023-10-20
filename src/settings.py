@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-3wh=v2_frf5+sokdq$qjimd6ke&@*dyfh4rdj4&w)2&eyiq!pj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*', '192.168.42.197']
 
 
 # Application definition
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # global
     'rest_framework',
-
+    'rest_framework.authtoken',
     # local
     'kanban'
 ]

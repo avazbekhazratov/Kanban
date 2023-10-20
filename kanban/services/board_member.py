@@ -27,10 +27,19 @@ class BoardMemberView(GenericAPIView):
             return Response({"Error": "Fields are empty"}, status=status.HTTP_404_NOT_FOUND)
         if "member" not in data or not data['member']:
             return Response({"Error": "Fields are empty"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'Success': "you have added"})
+
     def put(self, request, pk):
         data = request.data
-        if "title" not in data or not data['title']:
-            return Response({"error": "empty"})
+        if "board" not in data or not data['board']:
+            return Response({"Error": "Fields are empty"}, status=status.HTTP_404_NOT_FOUND)
+        if "member" not in data or not data['member']:
+            return Response({"Error": "Fields are empty"}, status=status.HTTP_404_NOT_FOUND)
+
         BoardMem = BoardMember.objects.filter(pk=pk).first()
         if BoardMem:
             serializer = self.get_serializer(data=data, instance=BoardMem)

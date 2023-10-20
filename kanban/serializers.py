@@ -17,8 +17,23 @@ class TaskConditionSerializer(ModelSerializer):
 class TaskItemSerializer(ModelSerializer):
     class Meta:
         model = TaskItem
-        fields = '__all__'
+        fields = ('id', 'title', 'creator', 'task_condition')
 
+    def to_representation(self, instance):
+        res = super().to_representation(instance)
+        if instance.creator:
+            res['creator'] = {
+                "phone": instance.creator.phone,
+                "username": instance.creator.username
+            }
+        # if instance.task_condition:
+        #     res['task_condition'] = {
+        #         "title": instance.task_condition.title,
+        #         "creator": instance.task_condition.creator.phone,
+        #         "board": instance.task_condition.board.title,
+        #         "desc": instance.task_condition.board.desc
+        #     }
+        return res
 
 class SubTaskSerializer(ModelSerializer):
     class Meta:

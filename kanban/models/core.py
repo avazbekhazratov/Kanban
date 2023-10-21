@@ -24,11 +24,6 @@ class TaskCondition(models.Model):
 class TaskItem(models.Model):
     title = models.CharField(max_length=2000)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
-    action = models.CharField(max_length=20, choices=[
-        ("Todo", "Todo"),
-        ("Doing", "Doing"),
-        ("Done", "Done"),
-    ])
     task_condition = models.ForeignKey(TaskCondition, on_delete=models.CASCADE)
 
     def __str__(self):

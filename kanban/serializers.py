@@ -31,6 +31,7 @@ class TaskItemSerializer(ModelSerializer):
         #         "title": instance.task_condition.title,
         #         "creator": instance.task_condition.creator.phone,
         #         "board": instance.task_condition.board.title,
+        #         "desc": instance.task_condition.board.desc
         #     }
         return res
 

@@ -26,13 +26,12 @@ class TaskItemSerializer(ModelSerializer):
                 "phone": instance.creator.phone,
                 "username": instance.creator.username
             }
-        # if instance.task_condition:
-        #     res['task_condition'] = {
-        #         "title": instance.task_condition.title,
-        #         "creator": instance.task_condition.creator.phone,
-        #         "board": instance.task_condition.board.title,
-        #         "desc": instance.task_condition.board.desc
-        #     }
+        if instance.task_condition:
+            res['task_condition'] = {
+                "title": instance.task_condition.title,
+                "creator": instance.task_condition.creator.phone,
+                "board": instance.task_condition.board.title,
+            }
         return res
 
 class SubTaskSerializer(ModelSerializer):

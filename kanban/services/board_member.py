@@ -19,8 +19,6 @@ class BoardMemberView(GenericAPIView):
         serializer = self.get_serializer(BoardMem, many=True).data
         return Response({'Success': serializer}, status=status.HTTP_200_OK)
 
-
-
     def post(self, request):
         data = request.data
         if "board" not in data or not data['board']:
@@ -54,4 +52,3 @@ class BoardMemberView(GenericAPIView):
             BoardMem.delete()
             return Response({"Success": "Successfully deleted"}, status=status.HTTP_200_OK)
         return Response({"Error": "Data not found"}, status=status.HTTP_404_NOT_FOUND)
-

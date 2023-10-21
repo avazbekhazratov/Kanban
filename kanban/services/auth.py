@@ -21,12 +21,10 @@ class AuthorizationView(GenericAPIView):
         if 'password' not in data or not data['password']:
             return Response({"Error": "Enter Password"}, status=status.HTTP_400_BAD_REQUEST)
 
-
         if User.objects.filter(phone=int(data['phone'])).exists():
             return Response({
                 "Error": "This phone exists"
             }, status=status.HTTP_400_BAD_REQUEST)
-
 
         password = data['password']
         if len(password) < 6 or not any(char.isdigit() for char in password) or not any(

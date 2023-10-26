@@ -14,15 +14,14 @@ class Items(GenericAPIView):
             if pk:
                 board = Board.objects.filter(id=pk).first()
                 if board:
-                    serializer = self.get_serializer(board).data
-                    return Response({"succes": serializer})
-                return Response({"error"})
+                    serializer = BoardSerializer(board).data
+                    return Response({"success": serializer})
+                return Response({"error": "Board not found"})
             board = Board.objects.all()
-            serializer = self.get_serializer(board, many=True).data
-            return Response({'Success': serializer})
-        except:
-            return 0
-
+            serializer = BoardSerializer(board, many=True).data
+            return Response({'success': serializer})
+        except Exception as e:
+            return Response({"error": str(e)})
     def post(self, request):
         data = request.data
         if "title" not in data or not data['title']:

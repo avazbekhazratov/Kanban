@@ -8,30 +8,6 @@ class SubTaskSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class BoardSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Board
-        fields = '__all__'
-
-    def to_representation(self, instance):
-        res = super().to_representation(instance)
-        res['creator'] = {
-            "id": instance.creator.id,
-            "phone": instance.creator.phone,
-            "username": instance.creator.username
-        }
-        return res
-
-    def create(self, validated_data):
-        user = self.context['request'].user
-        validated_data['creator'] = user
-        board = Board.objects.select_related('creator').filter(creator=user)
-        if board.first():
-            raise serializers.ValidationError("Board's title is unique")
-        board = Board.objects.create(**validated_data)
-        return board
-
-
 class TaskItemSerializer(serializers.ModelSerializer):
     sub_task = SubTaskSerializer(many=True, read_only=True)
 
@@ -90,6 +66,38 @@ class TaskConditionSerializer(serializers.ModelSerializer):
             return task_condition
         else:
             raise serializers.ValidationError("You can only link to your own boards !!!")
+
+
+class BoardSerializer(serializers.ModelSerializer):
+    task = TaskConditionSerializer(many=True, read_only=True)
+    task_condition = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Board
+        fields = ("id", "title", "creator", 'task', 'task_condition')
+
+    def to_representation(self, instance):
+        res = super().to_representation(instance)
+        res['creator'] = {
+            "id": instance.creator.id,
+            "phone": instance.creator.phone,
+            "username": instance.creator.username
+        }
+        return res
+
+    def get_task_condition(self, instance):
+        task_conditions = TaskCondition.objects.filter(board=instance)
+        task_condition_data = TaskConditionSerializer(task_conditions, many=True).data
+        return task_condition_data
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        validated_data['creator'] = user
+        board = Board.objects.select_related('creator').filter(creator=user)
+        if board.first():
+            raise serializers.ValidationError("Board's title is unique")
+        board = Board.objects.create(**validated_data)
+        return board
 
 
 class BoardMemberSerializer(serializers.ModelSerializer):

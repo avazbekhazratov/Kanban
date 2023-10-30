@@ -1,11 +1,11 @@
 from django.urls import path
-from .views import Items
+from .views import BoardView
 from .services import TaskCondt, BoardMemberView, TaskItemView, SubTaskView
 from .services.auth import AuthorizationView, LoginView, AuthOne, AuthTwo
 
 urlpatterns = [
-    path('item/', Items.as_view()),
-    path("item/<int:pk>/", Items.as_view()),
+    path('board/', BoardView.as_view()),
+    path("board/<int:pk>/", BoardView.as_view()),
 
     path('task/', TaskCondt.as_view()),
     path("task/<int:pk>/", TaskCondt.as_view()),

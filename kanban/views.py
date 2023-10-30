@@ -6,7 +6,7 @@ from .serializers import BoardSerializer
 from .models.core import Board
 
 
-class Items(GenericAPIView):
+class BoardView(GenericAPIView):
     serializer_class = BoardSerializer
 
     def get(self, request, pk=None):
@@ -22,6 +22,9 @@ class Items(GenericAPIView):
             return Response({'success': serializer})
         except Exception as e:
             return Response({"error": str(e)})
+
+
+
     def post(self, request):
         data = request.data
         if "title" not in data or not data['title']:

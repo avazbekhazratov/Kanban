@@ -130,7 +130,7 @@ USE_TZ = True
 
 STATIC_URL = 'staticfiles/'
 
-STATICFILES_DIRS = [BASE_DIR / 'static_files']
+STATICFILES_DIRS = [BASE_DIR / 'staticfiles']
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
 # Default primary key field type

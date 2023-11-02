@@ -84,7 +84,7 @@ AUTH_USER_MODEL = "kanban.User"
 DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'Kanban',
+            'NAME': 'kanban',
             'USER': 'kanbanadmin',
             'PASSWORD': 'fintechhub',
             'HOST': 'localhost',

@@ -86,7 +86,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'Kanban',
         'USER': 'Kanbanuser',
-        'PASSWORD': 'FinTechHub',
+        'PASSWORD': 'fintechhub',
         'HOST': 'localhost',
         'PORT': '',
     }

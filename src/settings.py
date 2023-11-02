@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-3wh=v2_frf5+sokdq$qjimd6ke&@*dyfh4rdj4&w)2&eyiq!pj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['138.68.109.195']
 
@@ -85,8 +85,8 @@ DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'Kanban',
-            'USER': 'Kanbanuser',
-            'PASSWORD': 'FinTechHub',
+            'USER': 'kanbanadmin',
+            'PASSWORD': 'fintechhub',
             'HOST': 'localhost',
             'PORT': '',
         }

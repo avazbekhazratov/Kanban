@@ -87,7 +87,7 @@ DATABASES = {
         'NAME': 'Kanban',
         'USER': 'Kanbanuser',
         'PASSWORD': 'FinTechHub',
-        'HOST': '138.68.109.195',
+        'HOST': 'localhost',
         'PORT': '',
     }
 }

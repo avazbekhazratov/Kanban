@@ -1,12 +1,15 @@
+from base.helper import BearerAuth
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
 from kanban.models.core import BoardMember
 from kanban.serializers import BoardMemberSerializer
 from rest_framework import status
-
+from rest_framework.permissions import IsAuthenticated
 
 class BoardMemberView(GenericAPIView):
     serializer_class = BoardMemberSerializer
+    permission_classes = IsAuthenticated,
+    authentication_classes = BearerAuth,
 
     def get(self, request, pk=None):
         if pk:

@@ -1,26 +1,31 @@
+from rest_framework import status
+from base.helper import BearerAuth
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-
+from rest_framework.permissions import IsAuthenticated
 from kanban.serializers import TaskConditionSerializer
-from kanban.models.core import TaskCondition, TaskItem, SubTask, BoardMember
+from kanban.models.core import TaskCondition
 
 
-class TaskCondt(GenericAPIView):
+class TaskConditionView(GenericAPIView):
     serializer_class = TaskConditionSerializer
+    permission_classes = IsAuthenticated,
+    authentication_classes = BearerAuth,
 
     def get(self, request, pk=None):
         try:
             if pk:
-                board = TaskCondition.objects.filter(id=pk).first()
-                if board:
-                    serializer = self.get_serializer(board).data
-                    return Response({"succes": serializer})
-                return Response({"error"})
-            board = TaskCondition.objects.all()
-            serializer = self.get_serializer(board, many=True).data
-            return Response({'Success': serializer})
-        except:
-            return 0
+                task_condition = TaskCondition.objects.filter(id=pk).first()
+                if task_condition:
+                    serializer = self.get_serializer(task_condition).data
+                    return Response({"success": serializer})
+                return Response({"error": "Task Condition not found"}, status=status.HTTP_404_NOT_FOUND)
+            else:
+                task_conditions = TaskCondition.objects.all()
+                serializer = self.get_serializer(task_conditions, many=True).data
+                return Response({'Success': serializer})
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def post(self, request):
         data = request.data

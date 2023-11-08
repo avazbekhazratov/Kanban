@@ -4,7 +4,7 @@ from kanban.models.user import User
 
 
 class Board(models.Model):
-    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200)
 
     def __str__(self):
@@ -23,7 +23,7 @@ class TaskCondition(models.Model):
 
 class TaskItem(models.Model):
     title = models.CharField(max_length=2000)
-    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     task_condition = models.ForeignKey(TaskCondition, on_delete=models.CASCADE)
 
     def __str__(self):

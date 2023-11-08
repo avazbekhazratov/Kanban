@@ -1,14 +1,13 @@
 from django.urls import path
-from .views import BoardView
-from .services import TaskCondt, BoardMemberView, TaskItemView, SubTaskView
+from .services import BoardMemberView, TaskItemView, SubTaskView, BoardView, TaskConditionView
 from .services.auth import AuthorizationView, LoginView, AuthOne, AuthTwo
 
 urlpatterns = [
     path('board/', BoardView.as_view()),
     path("board/<int:pk>/", BoardView.as_view()),
 
-    path('task/', TaskCondt.as_view()),
-    path("task/<int:pk>/", TaskCondt.as_view()),
+    path('task/', TaskConditionView.as_view()),
+    path("task/<int:pk>/", TaskConditionView.as_view()),
 
     path('task-item/', TaskItemView.as_view()),
     path("task-item/<int:pk>/", TaskItemView.as_view()),

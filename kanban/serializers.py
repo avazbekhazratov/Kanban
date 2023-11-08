@@ -18,7 +18,6 @@ class TaskItemSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         res = super().to_representation(instance)
         res['creator'] = {
-            "id": instance.creator.id,
             "phone": instance.creator.phone,
             "username": instance.creator.username
         }
@@ -51,6 +50,7 @@ class TaskConditionSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         res = super().to_representation(instance)
         res['creator'] = {
+            'id': instance.creator.id,
             "phone": instance.creator.phone,
             "username": instance.creator.username
         }
@@ -58,6 +58,8 @@ class TaskConditionSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = self.context['request'].user
+        if not user.is_authenticated:
+            raise serializers.ValidationError("You must be authenticated to create a board.")
         linked_board = validated_data.get('board')
 
         if linked_board.creator == user:
@@ -74,7 +76,7 @@ class BoardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Board
-        fields = ("id", "title", "creator", 'task', 'task_condition')
+        fields = ('id', 'title', 'creator', 'task', 'task_condition')
 
     def to_representation(self, instance):
         res = super().to_representation(instance)
@@ -92,6 +94,8 @@ class BoardSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = self.context['request'].user
+        if not user.is_authenticated:
+            raise serializers.ValidationError("You must be authenticated to create a board.")
         validated_data['creator'] = user
         board = Board.objects.select_related('creator').filter(creator=user)
         if board.first():

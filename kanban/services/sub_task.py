@@ -1,12 +1,15 @@
+from base.helper import BearerAuth
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
-from kanban.models.core import BoardMember, SubTask
-from kanban.serializers import BoardMemberSerializer, SubTaskSerializer
+from kanban.models.core import SubTask
+from kanban.serializers import SubTaskSerializer
 from rest_framework import status
-
+from rest_framework.permissions import IsAuthenticated
 
 class SubTaskView(GenericAPIView):
     serializer_class = SubTaskSerializer
+    permission_classes = IsAuthenticated,
+    authentication_classes = BearerAuth,
 
     def get(self, request, pk=None):
         if pk:

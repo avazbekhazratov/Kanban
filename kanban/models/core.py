@@ -5,7 +5,7 @@ from kanban.models.user import User
 
 class Board(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, unique=True)
 
     def __str__(self):
         return f"{self.title}"

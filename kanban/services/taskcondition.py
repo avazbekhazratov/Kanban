@@ -32,9 +32,6 @@ class TaskConditionView(GenericAPIView):
         if "board" not in data or not data['board']:
             return Response({"error": "empty"})
 
-        if "creator" not in data or not data['creator']:
-            return Response({"error": "empty"})
-
         if "title" not in data or not data['title']:
             return Response({"error": "empty"})
 
@@ -50,9 +47,6 @@ class TaskConditionView(GenericAPIView):
         data = request.data
 
         if "board" not in data or not data['board']:
-            return Response({"error": "empty"})
-
-        if "creator" not in data or not data['creator']:
             return Response({"error": "empty"})
 
         if "title" not in data or not data['title']:

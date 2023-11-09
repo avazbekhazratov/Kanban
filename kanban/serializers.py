@@ -30,6 +30,8 @@ class TaskItemSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = self.context['request'].user
+        if not user.is_authenticated:
+            raise serializers.ValidationError("You must be authenticated to create a board.")
         task_condition = validated_data.get('task_condition')
 
         if task_condition.creator == user:
@@ -96,10 +98,15 @@ class BoardSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         if not user.is_authenticated:
             raise serializers.ValidationError("You must be authenticated to create a board.")
+
+        title = validated_data.get('title')
+
+        existing_board = Board.objects.filter(creator=user, title=title).first()
+
+        if existing_board:
+            raise serializers.ValidationError("A board with this title already exists for the current user.")
+
         validated_data['creator'] = user
-        board = Board.objects.select_related('creator').filter(creator=user)
-        if board.first():
-            raise serializers.ValidationError("Board's title is unique")
         board = Board.objects.create(**validated_data)
         return board
 
@@ -111,6 +118,8 @@ class BoardMemberSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = self.context['request'].user
+        if not user.is_authenticated:
+            raise serializers.ValidationError("You must be authenticated to create a board.")
         board = validated_data.get("board")
         member = validated_data['member']
         board_members = BoardMember.objects.filter(board_id=board.id)

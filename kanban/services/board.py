@@ -41,8 +41,6 @@ class BoardView(GenericAPIView):
         data = request.data
         if "title" not in data or not data['title']:
             return Response({"error": "title"})
-        if "creator" not in data or not data['creator']:
-            return Response({"error": "creator"})
 
         bosa = Board.objects.filter(pk=pk).first()
         if bosa:

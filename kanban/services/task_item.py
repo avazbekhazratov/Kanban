@@ -29,8 +29,7 @@ class TaskItemView(GenericAPIView):
         data = request.data
         if "title" not in data or not data['title']:
             return Response({"Error": "Fields are empty"}, status=status.HTTP_404_NOT_FOUND)
-        if "creator" not in data or not data['creator']:
-            return Response({"Error": "Fields are empty"}, status=status.HTTP_404_NOT_FOUND)
+
         if "task_condition" not in data or not data['task_condition']:
             return Response({"Error": "Fields are empty"}, status=status.HTTP_404_NOT_FOUND)
 

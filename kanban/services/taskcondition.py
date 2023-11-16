@@ -35,9 +35,6 @@ class TaskConditionView(GenericAPIView):
         if "title" not in data or not data['title']:
             return Response({"error": "empty"})
 
-        if "desc" not in data or not data['desc']:
-            return Response({"error": "empty"})
-
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -52,8 +49,6 @@ class TaskConditionView(GenericAPIView):
         if "title" not in data or not data['title']:
             return Response({"error": "empty"})
 
-        if "desc" not in data or not data['desc']:
-            return Response({"error": "empty"})
 
         bosa = TaskCondition.objects.filter(pk=pk).first()
         if bosa:

@@ -62,8 +62,9 @@ class TaskConditionSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         if not user.is_authenticated:
             raise serializers.ValidationError("You must be authenticated to create a board.")
-        linked_board = validated_data.get('board')
 
+        linked_board = validated_data.get('board')
+       
         if linked_board.creator == user:
             validated_data['creator'] = user
             task_condition = TaskCondition.objects.create(**validated_data)

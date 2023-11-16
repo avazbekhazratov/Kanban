@@ -163,3 +163,4 @@ migrations/
 *.py
 src/settings.py
 src/settings.py
+src/.env

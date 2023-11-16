@@ -4,16 +4,15 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+load_dotenv()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY', '')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG')
-
-ALLOWED_HOSTS = ['*']
+DEBUG = os.getenv('DEBUG', '').lower() == 'true'
+ALLOWED_HOSTS = ['*'] if DEBUG else os.getenv('ALLOWED_HOSTS').split(',')
 
 
 # Application definition
@@ -78,16 +77,15 @@ if DEBUG:
     }
 else:
     DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.postgresql_psycopg2',
-                'NAME': 'kanban',
-                'USER': 'kanbanadmin',
-                'PASSWORD': 'fintechhub',
-                'HOST': 'localhost',
-                'PORT': '',
-            }
+        'default': {
+            'ENGINE': 'django.db.backends.' + os.getenv('DB_ENGINE', "postgresql"),
+            'NAME': os.getenv("POSTGRES_DB"),
+            'USER': os.getenv("POSTGRES_USER"),
+            'PASSWORD': os.getenv("POSTGRES_PASSWORD"),
+            'HOST': os.getenv('POSTGRES_HOST'),
+            'PORT': os.getenv("POSTGRES_PORT"),
         }
-
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

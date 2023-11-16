@@ -130,6 +130,6 @@ class BoardMemberSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError("User exists")
 
         if member != user:
-            board_member = BoardMember.objects.create(**validated_data)
+            BoardMember.objects.create(**validated_data)
         else:
             raise serializers.ValidationError("Error saving user")

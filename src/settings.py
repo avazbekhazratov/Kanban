@@ -106,6 +106,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 
+# settings.py
+SECURE_HSTS_SECONDS = 31536000
+# settings.py
+SECURE_SSL_REDIRECT = True
+# settings.py
+SESSION_COOKIE_SECURE = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

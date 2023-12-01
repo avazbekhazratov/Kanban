@@ -71,8 +71,12 @@ AUTH_USER_MODEL = "kanban.User"
 if DEBUG:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'kanban',
+            'USER': 'kanbanadmin',
+            'PASSWORD': 'kanbanadmin',
+            'HOST': 'localhost',
+            'PORT': 5432,
         }
     }
 else:

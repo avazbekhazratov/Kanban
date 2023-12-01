@@ -1,7 +1,7 @@
 from django.urls import path
 from .services import BoardMemberView, TaskItemView, SubTaskView, BoardView, TaskConditionView
 from .services.auth import AuthorizationView, LoginView, AuthOne, AuthTwo
-
+app_name = 'kanban'
 urlpatterns = [
     path('board/', BoardView.as_view()),
     path("board/<int:pk>/", BoardView.as_view()),
